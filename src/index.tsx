@@ -1,22 +1,38 @@
 import { NativeModules, Platform } from 'react-native';
 
-const LINKING_ERROR =
-  `The package 'react-native-tv-selected-focus' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
+const updateView = (
+  viewTag: number,
+  className: string,
+  props: Record<string, any>
+) => {
+  if (Platform.OS === 'android') {
+    NativeModules.TvSelectedFocus.updateView(viewTag, className, props);
+  } else {
+    NativeModules.UIManager.updateView(viewTag, className, props);
+  }
+};
 
-const TvSelectedFocus = NativeModules.TvSelectedFocus
-  ? NativeModules.TvSelectedFocus
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
+export const focus = (tag: number | null | undefined) => {
+  if (!tag) {
+    return;
+  }
 
-export function multiply(a: number, b: number): Promise<number> {
-  return TvSelectedFocus.multiply(a, b);
-}
+  try {
+    if (Platform.OS === 'android') {
+      // NativeModules.TvFocus.focus(tag);
+      updateView(tag, 'RCTView', {
+        hasTVPreferredFocus: true,
+        tvFocusable: true,
+        accessible: true,
+      });
+    } else {
+      updateView(tag, 'RCTTVView', {
+        hasTVPreferredFocus: true,
+        tvFocusable: true,
+        accessible: true,
+      });
+    }
+  } catch (e) {
+    console.warn('[react-native-tv-focus]', 'Failed updating view', e);
+  }
+};

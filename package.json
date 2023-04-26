@@ -1,5 +1,5 @@
 {
-  "name": "react-native-tv-selected-focus",
+  "name": "@rsys2022/react-native-tv-selected-focus",
   "version": "0.1.0",
   "description": "test",
   "main": "lib/commonjs/index",
@@ -41,7 +41,10 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/rsys2022/react-native-tv-selected-focus",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rsys2022/react-native-tv-selected-focus.git"
+  },
   "author": "mahesh.vishwakarma@rsystems.com <mahesh.vishwakarma@rsystems.com> (https://github.com/rsys2022)",
   "license": "MIT",
   "bugs": {
@@ -156,5 +159,8 @@
         }
       ]
     ]
+  },
+  "directories": {
+    "example": "example"
   }
 }

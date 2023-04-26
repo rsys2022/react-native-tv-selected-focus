@@ -11,15 +11,30 @@ import com.facebook.react.module.annotations.ReactModule;
 @ReactModule(name = TvSelectedFocusModule.NAME)
 public class TvSelectedFocusModule extends ReactContextBaseJavaModule {
   public static final String NAME = "TvSelectedFocus";
-
+  private final ReactApplicationContext mContext;
   public TvSelectedFocusModule(ReactApplicationContext reactContext) {
     super(reactContext);
+    mContext = reactContext;
   }
 
   @Override
   @NonNull
   public String getName() {
     return NAME;
+  }
+
+
+  @ReactMethod
+  public void updateView(int tag, String className, ReadableMap props) {
+    try {
+      mContext.getNativeModule(UIManagerModule.class).getUIImplementation().updateView(
+        tag,
+        className,
+        props
+      );
+    } catch (IllegalViewOperationException ignore) {
+      Log.w(this.getName(), "Failed updating view with tag: " + tag);
+    }
   }
 
 
