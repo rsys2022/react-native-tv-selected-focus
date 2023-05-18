@@ -1,6 +1,7 @@
 package com.tvselectedfocus;
 
 import androidx.annotation.NonNull;
+import android.util.Log;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -26,6 +27,7 @@ public class TvSelectedFocusModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void updateView(int tag, String className, ReadableMap props) {
+    Log.d("check updateView function-----",String.valueOf(props))
     try {
       mContext.getNativeModule(UIManagerModule.class).getUIImplementation().updateView(
         tag,
