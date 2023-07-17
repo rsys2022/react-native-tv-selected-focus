@@ -11,11 +11,11 @@ npm install react-native-tv-selected-focus
 ## Usage
 
 ```js
-import { multiply } from 'react-native-tv-selected-focus';
+import { FocusButton } from 'react-native-tv-selected-focus';
 
 // ...
 
-const result = await multiply(3, 7);
+<FocusButton><Text>Button</Text></FocusButton>
 ```
 
 ## Contributing
