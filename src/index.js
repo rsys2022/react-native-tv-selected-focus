@@ -2,13 +2,13 @@
 import React, { useRef, useCallback } from 'react';
 import { Platform, Pressable, findNodeHandle, Animated } from 'react-native';
 
-export const FocusButton = ({ isTVSelectable, hasTVPreferredFocus, tvParallaxProperties, onPress, onFocus, children, blockFocusRight, blockFocusLeft, style }) => {
+export const FocusButton = ({ isTVSelectable, hasTVPreferredFocus, tvParallaxProperties, onPress, onFocus, children, blockFocusRight, blockFocusLeft, style,focusValue }) => {
 
   const scaleValue = useRef(new Animated.Value(1)).current;
   const handleFocus = () => {
     if (Platform.isTV && Platform.OS === 'android' || Platform.OS === 'web') {
       Animated.spring(scaleValue, {
-        toValue: 1.13, // Scale down to 80%
+        toValue: focusValue?focusValue: 1.13, // Scale down to 80%
         useNativeDriver: true,
       }).start();
     }
@@ -78,3 +78,41 @@ export const FocusButton = ({ isTVSelectable, hasTVPreferredFocus, tvParallaxPro
     </Animated.View>
   )
 }
+
+
+export const FocusText = React.memo(({isTVSelectable, hasTVPreferredFocus, tvParallaxProperties, textStyle, containerStyle, value, onPress }) => {
+ 
+  const scaleValue = useRef(new Animated.Value(1)).current;
+ 
+  const animateTextSize = (val) => {
+    Animated.timing(
+      scaleValue,
+      {
+        toValue: val,
+        duration: 500,
+        useNativeDriver: true
+      }            
+    ).start();
+  }
+ 
+ 
+ 
+  return (
+    <Pressable
+        onPress={onPress}
+        
+        onFocus={() => {
+          animateTextSize(1.5)
+        }}
+        onBlur={()=> animateTextSize(1)}
+        // isTVSelectable={isTVSelectable}
+        // hasTVPreferredFocus={false}
+        // tvParallaxProperties={tvParallaxProperties}
+        style={containerStyle}
+      >
+      <Animated.Text style={[textStyle, {alignSelf: "center", transform: [{ scale: scaleValue }] }]}>
+        {value}
+      </Animated.Text>
+    </Pressable>
+  )
+})
